@@ -28,7 +28,7 @@
     });
     
 
-    $('.box').click(function(e){
+    $('div.box').click(function(e){
         $('#dialog').dialog("open")
         $("#dialog").text(this.id);
     });
@@ -57,7 +57,7 @@
     $('.btn').click(function() {
         var idd = $('.box').last();
         var nw = idd[0].id-(-1);
-        var txt2 = $('<div class="box" id="'+nw+'"><p>'+nw+'</p></div>');   // Создаем элемент при помощи jQuery
+        var txt2 = '<div class="box" id="'+nw+'"><p>'+nw+'</p></div>';   // Создаем элемент при помощи jQuery
   
         $('.parent').append(txt2);
     });
