@@ -1,0 +1,143 @@
+<!DOCTYPE HTML>
+<html>
+ <head>
+  <meta charset="utf-8">
+  <title>Тестовое задание</title>
+  <style type="text/css">
+      .box{
+        display: inline-flex;
+        min-width: 15vw;
+        min-height: 15vw;
+        border:1px solid red;
+        margin: 2vw;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+     
+    .box:before {
+        content: "";
+        padding-top: 100%;
+    }
+    #b-popup{
+    width:100%;
+    min-height:100%;
+    background-color: rgba(0,0,0,0.5);
+    overflow:hidden;
+    position:fixed;
+    top:0px;
+    left:0px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    }
+    #b-popup .b-popup-content{
+        position: relative;
+        display: inline-flex;
+        
+        min-width:20vw;
+        min-height: 10vw;
+        max-height: 30vw;
+        background-color: #c5c5c5;
+        border-radius:5px;
+        box-shadow: 0px 0px 10px #000;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
+    .b-popup-content button {
+      position: absolute;
+      top: 1vw;
+      right: 1vw;
+    }
+    .b-popup-content p {
+      padding-top: 10px;
+    }
+  </style>
+  <script>
+
+  function color_change() {
+    cb = document.getElementById("check");
+    let array =  Array.from(document.getElementsByClassName('box'));
+    if (cb.checked) {
+        for (var i = 0; i < array.length; i++) {
+            if(i%2==1){
+                array[i].style.background= "gray";
+                array[i].style.color= "white";
+            }
+        }      
+    }
+    else{
+        for (var i = 0; i < array.length; i++) {
+            if(i%2==1){
+                array[i].style.background= "white";
+                array[i].style.color= "black";
+            }
+        }
+    }
+  }
+
+  function open_window(id) {
+    document.getElementById('b-popup').style.display="inline-flex";    
+    document.getElementById("b-popup").style.opacity=0;
+    document.getElementById('content').textContent = document.getElementById(id).textContent;
+    let vars;
+    let ID = setInterval(function() { 
+    (vars=Number(document.getElementById("b-popup").style.opacity));
+    if (vars>=1) {
+        clearInterval(ID);
+        } else{
+        vars += 0.2; document.getElementById("b-popup").style.opacity=vars;}
+        }, 100);
+    }
+                    
+  function close_window() {
+    document.getElementById("b-popup").style.opacity=1;
+    document.getElementById('b-popup').style.display="inline-flex";
+    let vars;
+    let ID2 = setInterval(function() { 
+    (vars=Number(document.getElementById("b-popup").style.opacity));
+    if (vars<=0) {
+        clearInterval(ID2);
+        }else{
+        vars -= 0.2; document.getElementById("b-popup").style.opacity=vars;}
+        }, 100);
+    //if(Number(document.getElementById('b-popup').style.opacity)==0)
+        document.getElementById('b-popup').style.display="none";
+    }
+                     
+    function create(){
+        let div = document.createElement('div');
+        let arr_lenght = document.getElementsByClassName('box').length-(-1);
+      div.className = "box";
+      div.id=arr_lenght;
+      div.onclick = function() { open_window(arr_lenght); };
+      div.innerHTML = "<p>"+arr_lenght+"</p>";
+
+      document.getElementById("parent").appendChild(div);
+      color_change();
+    }
+
+  </script>
+ </head>
+ <body>
+<div id="dialog" title="Блок №">
+</div>
+
+<label><input type="checkbox" id="check" onchange="color_change()"> Смена цвета</label>
+<div id="parent" style="width: 100%;">
+
+        <div class="box" id="1" onclick="open_window(id)"><p>1000000000000000000000000000000000000000000000000000</p></div>
+        <div class="box" id="2" onclick="open_window(id)"><p>2</p></div>
+        <div class="box" id="3" onclick="open_window(id)"><p>3</p></div>
+        <div class="box" id="4" onclick="open_window(id)"><p>4</p></div>
+</div>
+<button class="btn" onclick="create()">Добавить элемент</button>
+<div id="b-popup" onclick="close_window()" style="display: none;">
+    <div class="b-popup-content">
+        <button style="text-align: center;" onclick="close_window()">X</button>
+        <p id="content"></p>
+    </div>
+</div>
+ </body>
+</html>
